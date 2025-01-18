@@ -150,13 +150,36 @@ namespace Lab2_TranLeHienDuc_CSE422.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            try 
             {
+                var user = await _context.Users
+                    .Include(u => u.Devices)
+                    .FirstOrDefaultAsync(u => u.Id == id);
+
+                if (user == null)
+                {
+                    TempData["MessageType"] = "error";
+                    TempData["Message"] = "User not found.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                // Check if user has any devices
+                if (user.Devices != null && user.Devices.Any())
+                {
+                    TempData["MessageType"] = "error";
+                    TempData["Message"] = "Cannot delete user with assigned devices. Please reassign or remove devices first.";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                TempData["MessageType"] = "error";
+                TempData["Message"] = "Error deleting user: " + ex.Message;
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

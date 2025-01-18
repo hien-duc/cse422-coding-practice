@@ -100,8 +100,6 @@ nav {
     background: var(--card-background);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem;
-    margin-bottom: 2rem;
 }
 
 nav ul {
@@ -123,6 +121,19 @@ nav a {
 nav a:hover {
     color: var(--primary-color);
     background: rgba(99, 102, 241, 0.1);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    padding: 1rem;
+}
+
+.nav-links a {
+    color: #666;
+    text-decoration: none;
 }
 
 /* Buttons */

@@ -44,7 +44,7 @@
         <div class="details-value">@Model.PurchaseDate.ToShortDateString()</div>
     </div>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" id="deleteForm">
         <input type="hidden" asp-for="Id" />
         <div class="button-group">
             <button type="submit" class="button danger">
@@ -63,60 +63,78 @@
     </form>
 </div>
 
-<style>
-    .details-container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        .details-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-    .details-group {
-        display: grid;
-        grid-template-columns: 150px 1fr;
-        align-items: baseline;
-        gap: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #eee;
-    }
+        .details-group {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            align-items: baseline;
+            gap: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
 
-    .details-label {
-        font-weight: 600;
-        color: #666;
-    }
+        .details-label {
+            font-weight: 600;
+            color: #666;
+        }
 
-    .details-value {
-        color: #333;
-    }
+        .details-value {
+            color: #333;
+        }
 
-    .button-group {
-        margin-top: 2rem;
-    }
+        .button-group {
+            margin-top: 2rem;
+        }
 
-    .button {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 0.25rem;
-        cursor: pointer;
-    }
+        .button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
 
-    .button.danger {
-        background-color: #dc3545;
-        color: #fff;
-    }
+        .button.danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
 
-    .button.danger:hover {
-        background-color: #c82333;
-    }
+        .button.danger:hover {
+            background-color: #c82333;
+        }
 
-    .button.secondary {
-        background-color: #6c757d;
-        color: #fff;
-    }
+        .button.secondary {
+            background-color: #6c757d;
+            color: #fff;
+        }
 
-    .button.secondary:hover {
-        background-color: #5c636a;
-    }
-</style>
+        .button.secondary:hover {
+            background-color: #5c636a;
+        }
+    </style>
+}
 
 @section Scripts {
-    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/delete-confirmation.js"></script>
+    <script>
+        // Initialize delete confirmation
+        document.addEventListener('DOMContentLoaded', function() {
+            showDeleteConfirmation(document.getElementById('deleteForm'), 'device');
+            
+            // Show notification if there's a message in TempData
+            @if (TempData["Message"] != null)
+            {
+                <text>
+                showNotification('@TempData["MessageType"]', '@TempData["Message"]');
+                </text>
+            }
+        });
+    </script>
 }

@@ -29,7 +29,7 @@
         <div class="details-value">@Html.DisplayFor(model => model.Role.Name)</div>
     </div>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" id="deleteForm">
         <input type="hidden" asp-for="Id" />
         <div class="button-group">
             <button type="submit" class="button danger">
@@ -81,6 +81,14 @@
         border: none;
         border-radius: 0.25rem;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .button svg {
+        width: 1.25rem;
+        height: 1.25rem;
     }
 
     .button.danger {
@@ -101,3 +109,19 @@
         background-color: #5c636a;
     }
 </style>
+
+@section Scripts {
+    <script src="~/js/delete-confirmation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showDeleteConfirmation(document.getElementById('deleteForm'), 'user');
+            
+            @if (TempData["Message"] != null)
+            {
+                <text>
+                showNotification('@TempData["MessageType"]', '@TempData["Message"]');
+                </text>
+            }
+        });
+    </script>
+}
