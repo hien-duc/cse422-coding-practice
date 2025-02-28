@@ -12,7 +12,6 @@ namespace LibraryManagementSystem.Infrastructure.Data
         private DatabaseConnection()
         {
             Console.WriteLine("Database connection initialized.");
-
         }
 
         public void ExecuteQuery(string query)
